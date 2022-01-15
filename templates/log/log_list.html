@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-1">
+  <a href="{% url 'checkout_reader' %}" class="btn btn-sm btn-primary">
+    <i class="fas fa-address-book"></i> 借用設備
+  </a>
+  <a href="{% url 'return_book' %}" class="btn btn-sm btn-primary">
+    <i class="fas fa-undo"></i> 歸還設備
+  </a>
+</div>
+<div id="log-list">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>借用時間</th>
+        <th>設備</th>
+        <th>借用人</th>
+        <th>歸還時間</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in log_list %}
+      <tr>
+        <td>{{ log.checkout|date:"Y/m/d H:i" }}</td>
+        <td>
+          <a href="{% url 'equipment_view' log.equipment.id %}">
+            {{ log.equipment.title }}
+          </a>
+        </td>
+        <td>
+          <a href="{% url 'borrower_view' log.borrower.id %}">
+            {{ log.borrower.realname }}
+          </a>
+        </td>
+        <td>{{ log.returned|date:"Y/m/d H:i" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "pagination.html" %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-1">
+  <a href="{% url 'type_add' %}" class="btn btn-sm btn-primary">
+    <i class="fas fa-plus"></i> 新增型號
+  </a>
+</div>
+<table class="table table-sm">
+  <thead>
+    <tr class="text-light bg-dark">
+      <th>型號</th>
+      <th>詳細規格</th>
+      <th>購買時間</th>
+      <th>狀態</th> 
+    </tr>
+  </thead>
+  <tbody>
+    {% for type in type_list %}
+    <tr>
+      <td>
+        <a href="{% url 'type_view' type.id %}">{{ type.type }}</a></td>
+      <td>{{ type.detailed }}</td>
+      <td>{{type.buy_time}}</td>
+      <td>
+      <div>
+            <span class="badge">
+            {{ log.checkout|date:"Y/m/d H:i" }}
+            <i class="fas fa-arrow-alt-circle-right"></i>
+            </span>
+            {% if log.returned %}
+              <span class="badge">
+                {{ log.returned|date:"Y/m/d H:i" }}
+              </span>
+            {% else %}
+              <span class="badge badge-warning">使用中</span>
+            {% endif %}
+          </div>
+          </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "pagination.html" %}
+{% endblock %}

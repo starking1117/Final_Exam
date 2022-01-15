@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-2">
+  <a href="{% url 'book_edit' book.id %}" class="btn btn-sm btn-primary">
+    <i class="fas fa-edit"></i> 修改
+  </a>
+  <a href="{% url 'book_delete' book.id %}" class="btn btn-sm btn-danger">
+    <i class="fas fa-trash"></i> 刪除
+  </a>
+</div>
+<div id="book-detail" class="row">
+  <div class="col-md-4">
+    <img src="{{ book.preface.url }}" alt="{{ book.title }}">
+  </div>
+  <div class="col-sm-8">
+    <div class="card">
+      <div class="card-header">{{ book.title }}</div>
+      <table class="table">
+        <tr>
+          <th>作者</th><td>{{ book.author }}</td>
+        </tr>
+        <tr>
+          <th>出版社</th><td>{{ book.publisher }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        借閱紀錄
+      </div>
+      <ul class="list-group">
+        {% for log in log_list %}
+        <li class="list-group-item d-flex justify-content-between">
+          <div>
+            <span class="badge">
+            {{ log.checkout|date:"Y/m/d H:i" }}
+            <i class="fas fa-arrow-alt-circle-right"></i>
+            </span>
+            {% if log.returned %}
+              <span class="badge">
+                {{ log.returned|date:"Y/m/d H:i" }}
+              </span>
+            {% else %}
+              <span class="badge badge-warning">借閱中</span>
+            {% endif %}
+          </div>
+          <div>
+            <a href="{% url 'reader_view' log.reader.id %}">
+              {{ log.reader.realname }}
+            </a>
+          </div>
+        </li>
+        {% empty %}
+        <li class="list-group-item">無</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

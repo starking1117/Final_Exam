@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-1">
+  <a href="{% url 'equipment_add' %}" class="btn btn-sm btn-primary">
+    <i class="fas fa-plus"></i> 新增設備
+  </a>
+</div>
+<table class="table table-sm">
+  <thead>
+    <tr class="text-light bg-dark">
+      <th>型號</th>
+      <th>詳細規格</th>
+      <th>購買時間</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for type in type_list %}
+    <tr>
+      <td>
+        <a href="{% url 'type_view' type.id %}">{{ type.type }}</a>
+      </td>
+      <td>{{ type.detailed }}</td>
+      <td>{{type.buy_time}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "pagination.html" %}
+{% endblock %}
